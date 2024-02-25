@@ -111,3 +111,6 @@ if merge and (1 < n < 3E3):  # Merge NMS (boxes merged using weighted mean)
         i = i[iou.sum(1) > 1]  # require redundancy
 
 '''
+'''
+运行train.py时遇到"页面文件太小,无法完成操作"的问题,右键"此电脑","属性",右侧"高级系统设置","高级",性能的"设置","高级",虚拟内存的"更改",给D盘或E盘(pycharm所在盘)设置比较大的15G以上空间
+'''
