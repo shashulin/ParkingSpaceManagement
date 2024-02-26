@@ -23,4 +23,11 @@ if __name__ == '__main__':
 
     # 如果输出结果为 True，则表示您的计算机上的 GPU 可以被使用
     print(torch.cuda.is_available())
+    import torch
+
+    print(torch.version.cuda)
+    import torch
+
+    print(torch.__version__)
+
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/

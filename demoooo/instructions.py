@@ -4,6 +4,7 @@
 
 #打开labelimg只需要在Terminal输入labelimg
 #在edge收藏夹有操作步骤https://blog.csdn.net/qq_45945548/article/details/121701492
+#训练时显示PR为0,loss为NAN,pytorch版本问题去官网找合适的版本:pip install torch==1.9.1+cu102 torchvision==0.10.1+cu102 torchaudio==0.9.1 -f https://download.pytorch.org/whl/torch_stable.html
 #以下是步骤:
 #1.先运行video2img.py(记得修改视频路径和fps)
 #2.去labelimg标注图片,可以复制右边标签栏到另一张图片的标签栏,很方便(打不开的话删掉pyqt的各种包重新下载,看收藏夹里的教程),
