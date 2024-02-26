@@ -8,10 +8,10 @@ import cv2
 #参数设置
 imgName = "str(order)"   # 图片名,没有路径没有.jpg
 spacePosition = "yolov5\\spaces.p"  # 存放停车位位置的文件
-imgPath = "C:\\Users\\DELL\\PycharmProjects\\demoooo\\images\\str(order).jpg"  # 图片路径,与parkposition.py的--img_path一致
+imgPath = "images\\str(order).jpg"  # 图片路径,与parkposition.py的--img_path一致
 image_width, image_height = 640, 640  # 图像尺寸 输入图像的宽度和高度
 
-command = "python yolov5\\detect.py --weights C:\\Users\\DELL\\PycharmProjects\\demoooo\\yolov5\\runs\\train\\exp24\\weights\\best.pt " \
+command = "python yolov5\\detect.py --weights yolov5\\runs\\train\\exp48\\weights\\best.pt " \
           "--source " + imgPath + " --save-txt"
 # 定义YOLOv5检测命令
 
@@ -26,7 +26,7 @@ coordinates = []
 
 
 # 打开txt文件,里面是车辆位置坐标
-with open('C:\\Users\\DELL\\PycharmProjects\\demoooo\\yolov5\\runs\\detect\\exp\\labels\\'+imgName+'.txt', 'r') as file:
+with open('yolov5\\runs\\detect\\exp\\labels\\'+imgName+'.txt', 'r') as file:
     # 打开YOLOv5输出的文本文件
 
     # 逐行读取文件内容
@@ -52,7 +52,7 @@ with open('C:\\Users\\DELL\\PycharmProjects\\demoooo\\yolov5\\runs\\detect\\exp\
         coordinates.append(data[1:5])
 # 将车辆坐标存储在coordinates列表中
 
-shutil.rmtree("C:\\Users\\DELL\\PycharmProjects\\demoooo\\yolov5\\runs\\detect\\exp")
+shutil.rmtree("yolov5\\runs\\detect\\exp")
 # 删除YOLOv5输出的文本文件和图像文件夹
 
 # 画出停车位
