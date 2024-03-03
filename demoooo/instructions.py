@@ -8,8 +8,8 @@
 #以下是步骤:
 #1.先运行video2img.py(记得修改视频路径和fps)
 #2.去labelimg标注图片,可以复制右边标签栏到另一张图片的标签栏,很方便(打不开的话删掉pyqt的各种包重新下载,看收藏夹里的教程),
-#点击Open Dir选择C:\Users\DELL\PycharmProjects\demoooo\yolov5\VOCData\images,
-#点击Change Save Dir选择C:\Users\DELL\PycharmProjects\demoooo\yolov5\VOCData\Annotations
+#点击Open Dir选择C:\Users\DELL\PycharmProjects\demoooo\yolov5\VOCData\images,(根据实际改变!!!)
+#点击Change Save Dir选择C:\Users\DELL\PycharmProjects\demoooo\yolov5\VOCData\Annotations(根据实际改变!!!)
 #3.运行
 #yolov5/VOCData/split_train_val.py (可以划分训练集和验证集和测试集比例)
 #yolov5/VOCData/xml_to_yolo.py (注意将代码中的classes改成自己类别名称cars)
@@ -28,8 +28,9 @@ nc: 1
 # class names
 names: ["cars"]
 '''
-#5.使用记事本打开 C:\Users\DELL\PycharmProjects\demoooo\yolov5\models\yolov5s.yaml。把nc: xx 改成自己的类别数目
+#5.使用记事本打开 C:\Users\DELL\PycharmProjects\demoooo\yolov5\models\yolov5s.yaml。(根据实际改变!!!)把nc: xx 改成自己的类别数目
 #6.终端训练代码(******先到yolov5目录下*********)
+#cd ..\ParkingSpaceManagement\demoooo\yolov5\
 #注意修改文件train.py和general.py实现非极大值抑制大概0.3-0.35(detect.py设置的是0.2-0.3)
 #用cpu或者gpu
 #python train.py --weights weights/yolov5s.pt  --cfg models/yolov5s.yaml  --data data/myvoc.yaml --epoch 50 --batch-size 20 --img 640   --device cpu
@@ -41,7 +42,7 @@ names: ["cars"]
 #python detect.py --weights C:\Users\DELL\PycharmProjects\demoooo\yolov5\runs\train\exp24\weights\best.pt --source C:\Users\DELL\Desktop\parking20240103100626bk.mp4 --save-txt
 #单张图片
 #python detect.py --weights C:\Users\DELL\PycharmProjects\demoooo\yolov5\runs\train\exp24\weights\best.pt --source C:\Users\DELL\Desktop\094_wh860.jpg --save-txt
-#8.得到结果
+#8.得到结果(记得修改参数)
 #运行imgDetect.py(成熟)或者videoDetect.py(未更新)
 '''
 在YOLOv5中，取消非极大值抑制（NMS）可以通过修改检测脚本中的参数来实现。

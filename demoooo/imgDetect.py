@@ -8,8 +8,13 @@ import cv2
 #参数设置
 imgName = "str(order)"   # 图片名,没有路径没有.jpg
 spacePosition = "yolov5\\spaces.p"  # 存放停车位位置的文件
-imgPath = "images\\str(order).jpg"  # 图片路径,与parkposition.py的--img_path一致
-image_width, image_height = 640, 640  # 图像尺寸 输入图像的宽度和高度
+imgPath = "images\\"+imgName+".jpg"  # 图片路径,与parkposition.py的--img_path一致
+#image_width, image_height = 640, 640  # 图像尺寸 输入图像的宽度和高度
+from PIL import Image
+# 打开图片文件
+image = Image.open(imgPath)
+# 获取图片的宽度和高度
+image_width, image_height = image.size
 
 command = "python yolov5\\detect.py --weights yolov5\\runs\\train\\exp48\\weights\\best.pt " \
           "--source " + imgPath + " --save-txt"
