@@ -15,7 +15,7 @@ from PIL import Image
 image = Image.open(imgPath)
 # 获取图片的宽度和高度
 image_width, image_height = image.size
-
+image.close()
 command = "python yolov5\\detect.py --weights yolov5\\runs\\train\\exp48\\weights\\best.pt " \
           "--source " + imgPath + " --save-txt"
 # 定义YOLOv5检测命令
@@ -108,9 +108,47 @@ for space in parking_spaces:
     cv2.polylines(image, [vertices], isClosed=True, color=color, thickness=1)
     # 在停车位上绘制停车位编号
     cv2.putText(image, str(space.id), (int(space.space_centerx), int(space.space_centery)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
+# 获取停车位总数
+total_parking_spaces = len(parking_spaces)
+# 统计已停车的停车位数
+occupied_spaces = sum(space.has_car for space in parking_spaces)
+# 计算剩余停车位数量
+available_spaces = total_parking_spaces - occupied_spaces
 
+# 在图片上显示停车位总数和剩余停车位数量
+cv2.putText(image, f"Total Spaces: {total_parking_spaces}", (20, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
+cv2.putText(image, f"Available Spaces: {available_spaces}", (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
 # 显示图片
 cv2.imshow('Parking Lot', image)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
 # 在图像上绘制停车位状态，并显示结果
+
+
+#下面是绘制停车指示牌
+
+import numpy as np
+import cv2
+
+# 创建与原始图片相同大小的空白图片，背景为白色
+blank_image = np.ones((image_height, image_width, 3), np.uint8) * 255
+
+# 绘制停车位状态
+for space in parking_spaces:
+    color = (0, 255, 0) if not space.has_car else (0, 0, 255)  # 绿色表示无车，红色表示有车
+    vertices = np.array(space.vertices, np.int32).reshape((-1, 1, 2))
+    cv2.fillPoly(blank_image, [vertices], color)
+
+    # 在空白图片上显示停车位编号
+    cv2.putText(blank_image, str(space.id), (int(space.space_centerx), int(space.space_centery)),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1)
+# 在图片上显示停车位总数和剩余停车位数量
+cv2.putText(blank_image, f"Total Spaces: {total_parking_spaces}", (20, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (25, 25, 55), 1)
+cv2.putText(blank_image, f"Available Spaces: {available_spaces}", (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (25, 25, 255), 1)
+# 显示停车位状态指示图
+cv2.imshow('Parking Spaces', blank_image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+
+

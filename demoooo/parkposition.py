@@ -74,7 +74,7 @@ def onkeypress(event):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--img_path', help="Path of image file",
-                        default="C:\\Users\\DELL\\PycharmProjects\\demoooo\\images\\str(order).jpg") #与imgDetect.py文件一致
+                        default="images\\str(order).jpg") #与imgDetect.py文件一致
     parser.add_argument('--out_file', help="Name of the output file", default="yolov5/spaces.p")
     args = parser.parse_args()
     global globSelect
