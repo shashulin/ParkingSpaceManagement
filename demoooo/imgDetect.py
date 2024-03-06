@@ -133,7 +133,7 @@ def detect():
         cv2.fillPoly(blank_image, [vertices], color)
 
         # 在空白图片上显示停车位编号
-        cv2.putText(blank_image, str(space.id), (int(space.space_centerx), int(space.space_centery)),
+        cv2.putText(blank_image, str(space.id), (int(space.space_x_min), int(space.space_centery)),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1)
     # 在图片上显示停车位总数和剩余停车位数量
     cv2.putText(blank_image, f"Total Spaces: {total_parking_spaces}", (20, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (25, 25, 55), 1)

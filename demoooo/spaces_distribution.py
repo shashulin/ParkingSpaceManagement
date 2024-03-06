@@ -44,10 +44,10 @@ def drawSpacesOnSpecifiedPosition(num_spaces, start_x, start_y, space_width, spa
             global available_spaces
             available_spaces = available_spaces+1
         cv2.fillPoly(image, [np.array(vertices)], color)  # 填充颜色
-        cv2.polylines(image, [np.array(vertices)], isClosed=True, color=(0, 255, 0), thickness=1)  # 画边界
+        cv2.polylines(image, [np.array(vertices)], isClosed=True, color=color, thickness=1)  # 画边界
 
         # 在停车位上标注编号
-        cv2.putText(image, str(parking_space.id), (int(parking_space.space_centerx), int(parking_space.space_centery)),
+        cv2.putText(image, str(parking_space.id), (int(parking_space.space_x_min), int(parking_space.space_centery)),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.3, (0, 0, 0), 1)
 
 

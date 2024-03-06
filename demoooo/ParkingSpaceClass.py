@@ -25,10 +25,10 @@ class ParkingSpace:
         self.area = area
 
         # 计算停车位中心点
-        space_x_min = min(vertices[0][0], vertices[1][0], vertices[2][0], vertices[3][0])
-        space_y_min = min(vertices[0][1], vertices[1][1], vertices[2][1], vertices[3][1])
+        self.space_x_min = min(vertices[0][0], vertices[1][0], vertices[2][0], vertices[3][0])
+        self.space_y_min = min(vertices[0][1], vertices[1][1], vertices[2][1], vertices[3][1])
         space_x_max = max(vertices[0][0], vertices[1][0], vertices[2][0], vertices[3][0])
         space_y_max = max(vertices[0][1], vertices[1][1], vertices[2][1], vertices[3][1])
-        self.space_centerx = (space_x_min + space_x_max) / 2
-        self.space_centery = (space_y_min + space_y_max) / 2
+        self.space_centerx = (self.space_x_min + space_x_max) / 2
+        self.space_centery = (self.space_y_min + space_y_max) / 2
 
