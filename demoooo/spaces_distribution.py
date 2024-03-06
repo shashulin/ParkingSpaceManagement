@@ -64,6 +64,12 @@ cv2.putText(image, f"Total Spaces: {total_parking_spaces}", (20, 20), cv2.FONT_H
                     (25, 25, 55), 1)
 cv2.putText(image, f"Available Spaces: {available_spaces}", (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.5,
                     (0, 255, 0), 1)
+# 画箭头
+arrow_start = (image_size - 35, 70)
+arrow_end = (image_size - 35, 20)
+cv2.arrowedLine(image, arrow_start, arrow_end, (0, 0, 0), 1, tipLength=0.2)
+cv2.putText(image, f"N", (image_size - 30, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.5,
+                    (0, 0, 0), 1)
 # 显示图片
 cv2.imshow('Parking Spaces', image)
 cv2.waitKey(0)
