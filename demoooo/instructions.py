@@ -43,7 +43,7 @@ names: ["cars"]
 #单张图片
 #python detect.py --weights C:\Users\DELL\PycharmProjects\demoooo\yolov5\runs\train\exp24\weights\best.pt --source C:\Users\DELL\Desktop\094_wh860.jpg --save-txt
 #8.得到结果(记得修改参数)
-#运行spaces_distribution.py(成熟)或者videoDetect.py(未更新)
+#运行imgdetect.py(成熟)或者videoDetect.py(未更新)
 '''
 在YOLOv5中，取消非极大值抑制（NMS）可以通过修改检测脚本中的参数来实现。
 

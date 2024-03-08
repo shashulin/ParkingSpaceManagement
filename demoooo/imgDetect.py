@@ -1,10 +1,8 @@
-# 检测图片中的停车位状态,注意设置图片大小
+# 检测图片中的停车位状态
 import math
 import pickle
 import argparse
-# 导入停车位类
 from ParkingSpaceClass import ParkingSpace
-# 导入必要的库和模块
 import cv2
 import torch
 from yolov5.models.experimental import attempt_load  # YOLOv5的模型加载函数
@@ -13,13 +11,14 @@ from yolov5.utils.torch_utils import select_device
 from yolov5.utils.dataloaders import letterbox
 import numpy as np
 from PIL import Image
+from imageOperation import resize_image
 
 def predict_image(img_path,model,device,img_width):
     # 定义输入图像尺寸
     img_size = img_width
 
     # 读取图片并进行缩放
-    img0 = Image.open(img_path)  # 原始图片
+    img0 = resize_image(img_path, (640, 640))  # 原始图片
     img0 = np.array(img0)  # 将PIL图像转换为NumPy数组
 
     img = letterbox(img0, new_shape=img_size)[0]
@@ -113,10 +112,12 @@ def detect(model,device,imgPath,image_width,image_height,parking_spaces):
 
     # 加载图片
     image = cv2.imread(imgPath)
-
+    image = cv2.resize(image, (640, 640), interpolation=cv2.INTER_AREA)
     # 绘制停车位
     for space in parking_spaces:
+
         vertices = np.array(space.vertices, np.int32).reshape((-1, 1, 2))
+        print(vertices)
         color = (0, 0, 255) if space.has_car else (0, 255, 0)  # 绿色表示无车，红色表示有车
         cv2.polylines(image, [vertices], isClosed=True, color=color, thickness=1)
         # 在停车位上绘制停车位编号
@@ -165,7 +166,8 @@ def detect(model,device,imgPath,image_width,image_height,parking_spaces):
     # cv2.destroyAllWindows()
 
     # 创建图像
-    image = np.ones((image_size, image_size, 3), dtype=np.uint8) * 255
+
+    image = np.ones((image_width, image_height, 3), dtype=np.uint8) * 255
     drawSpacesOnSpecifiedPosition(9, 30, 300, 25, 15, 'horizontal', 'down', 28, parking_spaces, image)
     drawSpacesOnSpecifiedPosition(5, 90, 330, 25, 15, 'horizontal', 'down', 23, parking_spaces, image)
     drawSpacesOnSpecifiedPosition(4, 155, 350, 15, 25, 'horizontal', 'right', 19, parking_spaces, image)
@@ -178,10 +180,10 @@ def detect(model,device,imgPath,image_width,image_height,parking_spaces):
     cv2.putText(image, f"Available Spaces: {available_spaces}", (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.5,
                 (0, 255, 0), 1)
     # 画箭头
-    arrow_start = (image_size - 35, 70)
-    arrow_end = (image_size - 35, 20)
+    arrow_start = (image_width - 35, 70)
+    arrow_end = (image_width - 35, 20)
     cv2.arrowedLine(image, arrow_start, arrow_end, (0, 0, 0), 1, tipLength=0.2)
-    cv2.putText(image, f"N", (image_size - 30, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.5,
+    cv2.putText(image, f"N", (image_width - 30, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.5,
                 (0, 0, 0), 1)
     # 显示图片
     cv2.imshow('Parking Spaces', image)
@@ -211,12 +213,13 @@ if __name__ == '__main__':
     spacePosition = args.space_position  # 停车位位置文件路径
 
     # 打开图片文件
-    image = Image.open(imgPath)
+    #image = Image.open(imgPath)
+    image = cv2.imread(imgPath)  # 注意这个图片
+    image = cv2.resize(image, (640, 640), interpolation=cv2.INTER_AREA)
     # 获取图片的宽度和高度
-    image_width, image_height = image.size
-    # 定义图片大小
-    image_size = image_width
-    image.close()
+    image_size = image.shape
+
+
     # 加载保存的停车位坐标文件
     with open(spacePosition, "rb") as f:
         total_points = pickle.load(f)
@@ -226,12 +229,12 @@ if __name__ == '__main__':
     parking_spaces_true = []
     for i, points in enumerate(total_points):
         parking_space = ParkingSpace(i, points, False, 0)
-        print(parking_space.area)
+
         parking_spaces_true.append(parking_space)
     # 定义停车位对象列表并初始化
 
-    detect(model, device, imgPath, image_width, image_height, parking_spaces_true)
-    detect(model, device, imgPath, image_width, image_height, parking_spaces_true)
+    detect(model, device, imgPath, image_size[0], image_size[1], parking_spaces_true)
+    detect(model, device, imgPath, image_size[0], image_size[1], parking_spaces_true)
 
 
 

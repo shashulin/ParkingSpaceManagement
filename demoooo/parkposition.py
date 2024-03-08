@@ -11,8 +11,8 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon
 from matplotlib.widgets import PolygonSelector
 from matplotlib.collections import PatchCollection
-from shapely.geometry import box
-from shapely.geometry import Polygon as shapely_poly
+from  imageOperation import resize_image
+
 
 points = []
 prev_points = []
@@ -75,7 +75,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--img_path', help="Path of image file",
                         default="images\\str(order).jpg") #与imgDetect.py文件一致
-    parser.add_argument('--out_file', help="Name of the output file", default="yolov5/spaces.p")
+    parser.add_argument('--out_file', help="Name of the output file", default="yolov5\\spaces.p")
     args = parser.parse_args()
     global globSelect
     global savePath
@@ -90,6 +90,7 @@ if __name__ == '__main__':
         "> After marking a quadrilateral press 'n' to save current quadrilateral and then press 'q' to start marking a new quadrilateral")
     print("> When you are done press 'b' to Exit the program\n")
     frames = cv2.imread(args.img_path)   # 注意这个图片
+    frames = cv2.resize(frames, (640, 640), interpolation=cv2.INTER_AREA)
     #frames = cv2.imread('C:\\Users\\DELL\\Desktop\\R-C.jpg')  # 注意这个图片
     #new_image = frames.resize((640, 640))
     rgb_image = frames[:, :, ::-1]
