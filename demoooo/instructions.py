@@ -39,7 +39,7 @@ names: ["cars"]
 
 #7.用模型检测的代码
 #python detect.py --weights yolov5s.pt --source C:\Users\DELL\Desktop\parking20240103100626.mp4 --save-txt
-#python detect.py --weights C:\Users\DELL\PycharmProjects\demoooo\yolov5\runs\train\exp24\weights\best.pt --source C:\Users\DELL\Desktop\parking20240103100626bk.mp4 --save-txt
+#python detect.py --weights C:\Users\DELL\PycharmProjects\ParkingSpaceManagement\demoooo\yolov5\runs\train\exp48\weights\best.pt --source C:\Users\DELL\Desktop\parking20240103100626bk.mp4 --save-txt
 #单张图片
 #python detect.py --weights C:\Users\DELL\PycharmProjects\demoooo\yolov5\runs\train\exp24\weights\best.pt --source C:\Users\DELL\Desktop\094_wh860.jpg --save-txt
 #8.得到结果(记得修改参数)
