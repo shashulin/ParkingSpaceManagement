@@ -1,19 +1,21 @@
 # 检测图片中的停车位状态
+import argparse
 import math
 import pickle
-import argparse
-from ParkingSpaceClass import ParkingSpace
-import cv2
-import torch
-from yolov5.models.experimental import attempt_load  # YOLOv5的模型加载函数
-from yolov5.utils.general import check_img_size, non_max_suppression, scale_boxes
-from yolov5.utils.torch_utils import select_device
-from yolov5.utils.dataloaders import letterbox
-import numpy as np
-from PIL import Image
-from imageOperation import resize_image
 
-def predict_image(img_path,model,device,img_width):
+import cv2
+import numpy as np
+import torch
+
+from ParkingSpaceClass import ParkingSpace
+from imageOperation import resize_image
+from yolov5.models.experimental import attempt_load  # YOLOv5的模型加载函数
+from yolov5.utils.dataloaders import letterbox
+from yolov5.utils.general import non_max_suppression, scale_boxes
+from yolov5.utils.torch_utils import select_device
+
+
+def predict_image(img_path, model, device, img_width):
     # 定义输入图像尺寸
     img_size = img_width
 
@@ -52,11 +54,7 @@ def predict_image(img_path,model,device,img_width):
                     "confidence": conf.item(),
                     "class": cls.item()
                 })
-                data = []
-                data.append(x1.item())
-                data.append(y1.item())
-                data.append(x2.item())
-                data.append(y2.item())
+                data = [x1.item(), y1.item(), x2.item(), y2.item()]
                 coordinates.append(data)
 
     return coordinates
@@ -90,9 +88,9 @@ def drawSpacesOnSpecifiedPosition(num_spaces, start_x, start_y, space_width, spa
         cv2.putText(image, str(parking_space_fake.id), (int(parking_space_fake.space_x_min), int(parking_space_fake.space_centery)),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.3, (0, 0, 0), 1)
     return True
-def detect(model,device,imgPath,image_width,image_height,parking_spaces):
+def detect(model, device, imgPath, image_width, image_height, parking_spaces):
 
-    coordinates = predict_image(imgPath,model,device,image_width)
+    coordinates = predict_image(imgPath, model, device, image_width)
     # 将车辆坐标存储在coordinates列表中
 
     # 画出停车位
@@ -204,21 +202,20 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    device = select_device(args.device)  # 使用指定的设备
-    model = attempt_load(args.model_path, device=device)  # 加载模型
-    model.eval()  # 设置为评估模式
+    device0 = select_device(args.device)  # 使用指定的设备
+    model0 = attempt_load(args.model_path, device=device0)  # 加载模型
+    model0.eval()  # 设置为评估模式
 
     #imgName = args.img_name  # 图片名
-    imgPath = args.img_path  # 构造完整的图片路径
+    imgPath0 = args.img_path  # 构造完整的图片路径
     spacePosition = args.space_position  # 停车位位置文件路径
 
     # 打开图片文件
     #image = Image.open(imgPath)
-    image = cv2.imread(imgPath)  # 注意这个图片
-    image = cv2.resize(image, (640, 640), interpolation=cv2.INTER_AREA)
+    image_for_size = cv2.imread(imgPath0)  # 注意这个图片
+    image_for_size = cv2.resize(image_for_size, (640, 640), interpolation=cv2.INTER_AREA)
     # 获取图片的宽度和高度
-    image_size = image.shape
-
+    image_size = image_for_size.shape
 
     # 加载保存的停车位坐标文件
     with open(spacePosition, "rb") as f:
@@ -227,14 +224,11 @@ if __name__ == '__main__':
 
     # 创建停车位对象列表
     parking_spaces_true = []
-    for i, points in enumerate(total_points):
-        parking_space = ParkingSpace(i, points, False, 0)
+    for i0, points in enumerate(total_points):
+        parking_space = ParkingSpace(i0, points, False, 0)
 
         parking_spaces_true.append(parking_space)
     # 定义停车位对象列表并初始化
 
-    detect(model, device, imgPath, image_size[0], image_size[1], parking_spaces_true)
-    detect(model, device, imgPath, image_size[0], image_size[1], parking_spaces_true)
-
-
-
+    detect(model0, device0, imgPath0, image_size[0], image_size[1], parking_spaces_true)
+    detect(model0, device0, imgPath0, image_size[0], image_size[1], parking_spaces_true)
