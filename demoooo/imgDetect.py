@@ -135,8 +135,8 @@ def detect(model, device, imgPath, image_width, image_height, parking_spaces):
                 (255, 255, 255), 1)
     # 显示图片
     cv2.imshow('Parking Lot', image)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    cv2.waitKey(1)
+    #cv2.destroyAllWindows()
     # 在图像上绘制停车位状态，并显示结果
 
     # # 下面是绘制停车指示牌
@@ -185,8 +185,8 @@ def detect(model, device, imgPath, image_width, image_height, parking_spaces):
                 (0, 0, 0), 1)
     # 显示图片
     cv2.imshow('Parking Spaces', image)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    cv2.waitKey(1)
+    #cv2.destroyAllWindows()
     return parking_spaces
 
 
@@ -232,3 +232,6 @@ if __name__ == '__main__':
 
     detect(model0, device0, imgPath0, image_size[0], image_size[1], parking_spaces_true)
     detect(model0, device0, imgPath0, image_size[0], image_size[1], parking_spaces_true)
+
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
