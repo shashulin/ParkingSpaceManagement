@@ -7,6 +7,7 @@ import cv2
 import numpy as np
 import torch
 
+import Algorithm
 from ParkingSpaceClass import ParkingSpace
 from imageOperation import resize_image
 from yolov5.models.experimental import attempt_load  # YOLOv5的模型加载函数
@@ -96,17 +97,7 @@ def detect(model, device, imgPath, image_width, image_height, parking_spaces):
     # 画出停车位
     # 与parkposition.py的图片需要是同一张
 
-    # 判断停车位是否有车
-    for space in parking_spaces:
-        for idx, (x_min, y_min, x_max, y_max) in enumerate(coordinates):
-            # 计算汽车中心点
-            car_centerx = (x_min + x_max) / 2
-            car_centery = (y_min + y_max) / 2
-
-            # 判断停车位和汽车中心点距离
-            if math.sqrt((space.space_centerx - car_centerx) ** 2 + (space.space_centery - car_centery) ** 2) < 10:
-                space.has_car = True
-    # 判断停车位是否有车并将结果存储到停车位对象列表中
+    parking_spaces = Algorithm.calcEverySpaceStatus(parking_spaces, coordinates)
 
     # 加载图片
     image = cv2.imread(imgPath)

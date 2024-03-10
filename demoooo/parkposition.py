@@ -11,7 +11,8 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon
 from matplotlib.widgets import PolygonSelector
 from matplotlib.collections import PatchCollection
-from  imageOperation import resize_image
+from imageOperation import resize_image, extract_first_frame
+
 
 
 points = []
@@ -73,9 +74,10 @@ def onkeypress(event):
 #标记输入视频的初始帧之一上的多边形区域。它以视频路径作为参数，并将选定多边形区域的坐标保存在pickle文件中作为输出。
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--img_path', help="Path of image file",
+    parser.add_argument('--path', help="Path of image file",
                         default="images\\str(order).jpg") #与imgDetect.py文件一致
     parser.add_argument('--out_file', help="Name of the output file", default="yolov5\\spaces.p")
+    parser.add_argument('--type', help="video or image", default="image")
     args = parser.parse_args()
     global globSelect
     global savePath
@@ -89,11 +91,15 @@ if __name__ == '__main__':
     print(
         "> After marking a quadrilateral press 'n' to save current quadrilateral and then press 'q' to start marking a new quadrilateral")
     print("> When you are done press 'b' to Exit the program\n")
-    frames = cv2.imread(args.img_path)   # 注意这个图片
-    frames = cv2.resize(frames, (640, 640), interpolation=cv2.INTER_AREA)
-    #frames = cv2.imread('C:\\Users\\DELL\\Desktop\\R-C.jpg')  # 注意这个图片
-    #new_image = frames.resize((640, 640))
-    rgb_image = frames[:, :, ::-1]
+    if args.type == 'image':
+        image = cv2.imread(args.path)   # 注意这个图片
+    elif args.type == 'video':
+        image = extract_first_frame(args.path)
+
+    image = cv2.resize(image, (640, 640), interpolation=cv2.INTER_AREA)
+    # frames = cv2.imread('C:\\Users\\DELL\\Desktop\\R-C.jpg')  # 注意这个图片
+    # new_image = frames.resize((640, 640))
+    rgb_image = image[:, :, ::-1]
     while True:
         fig, ax = plt.subplots()
         image = rgb_image

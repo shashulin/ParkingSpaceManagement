@@ -10,6 +10,7 @@ import torch
 from PIL import Image
 from ParkingSpaceClass import ParkingSpace
 from imageOperation import resize_image
+import Algorithm
 from yolov5.models.experimental import attempt_load  # YOLOv5的模型加载函数
 from yolov5.utils.dataloaders import letterbox
 from yolov5.utils.general import non_max_suppression, scale_boxes
@@ -114,17 +115,7 @@ def detect(model, device, video_path, image_width, image_height, parking_spaces)
         # 画出停车位
         # 与parkposition.py的图片需要是同一张
 
-        # 判断停车位是否有车
-        for space in parking_spaces:
-            for idx, (x_min, y_min, x_max, y_max) in enumerate(coordinates):
-                # 计算汽车中心点
-                car_centerx = (x_min + x_max) / 2
-                car_centery = (y_min + y_max) / 2
-
-                # 判断停车位和汽车中心点距离
-                if math.sqrt((space.space_centerx - car_centerx) ** 2 + (space.space_centery - car_centery) ** 2) < 10:
-                    space.has_car = True
-        # 判断停车位是否有车并将结果存储到停车位对象列表中
+        parking_spaces = Algorithm.calcEverySpaceStatus(parking_spaces, coordinates)
 
         # 加载图片
         image = frame
@@ -215,8 +206,8 @@ if __name__ == '__main__':
                         default='yolov5\\runs\\train\\exp48\\weights\\best.pt',
                         help='模型文件路径')
     #parser.add_argument('--img_name', default='str(order)', help='图片名，不包含路径和文件扩展名')
-    parser.add_argument('--video_path', default='images\\7.mp4', help='视频存放的路径')
-    parser.add_argument('--space_position', default='yolov5\\spaces.p', help='存放停车位位置信息的文件路径')
+    parser.add_argument('--video_path', default='images\\1.mp4', help='视频存放的路径')
+    parser.add_argument('--space_position', default='temp.p', help='存放停车位位置信息的文件路径')
 
     args = parser.parse_args()
 
